@@ -1,0 +1,19 @@
+{
+  "name": "tconfig",
+  "version": "0.0.1",
+  "displayName": "Tconfig",
+  "description": "Simple CSV parser",
+  "unity": "2019.1",
+  "unityRelease": "0b5",
+ "keywords": [
+    "csv",
+    "parser",
+    "config",
+    "c#"
+  ],
+  "author": {
+    "name": "Tymur Koshel",
+    "email": "timurkoshel@gmail.com",
+    "url": "https://github.com/thenitro"
+  }
+}
