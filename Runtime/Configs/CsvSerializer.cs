@@ -41,7 +41,7 @@ namespace Configs
                     switch (dataType)
                     {
                         case "String":
-                            field.SetValue(entry, rows[rowIndex]);
+                            field.SetValue(entry, rows[rowIndex].Trim());
                             break;
                         case "Boolean":
                             field.SetValue(entry, rows[rowIndex] == "TRUE");
