@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -17,11 +16,11 @@ namespace Configs
                 return null;
             }
 
-            List<T> data = new();
-            Type type = typeof(T);
-            string[] lines = dataset.text.Split("\n");
-            string[] headers = lines[0].Split(',');
-            Dictionary<string, FieldInfo> fields = new Dictionary<string, FieldInfo>();
+            var data = new List<T>();
+            var type = typeof(T);
+            var lines = dataset.text.Split("\n");
+            var headers = lines[0].Split(',');
+            var fields = new Dictionary<string, FieldInfo>();
 
             foreach (var field in type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
             {
