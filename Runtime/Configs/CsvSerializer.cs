@@ -46,10 +46,10 @@ namespace Configs
                             field.SetValue(entry, rows[rowIndex] == "TRUE");
                             break;
                         case "Int32":
-                            field.SetValue(entry, int.Parse(rows[rowIndex]));
+                            field.SetValue(entry, string.IsNullOrEmpty(rows[rowIndex]) ? 0 : int.Parse(rows[rowIndex]));
                             break;
                         case "Single":
-                            field.SetValue(entry, float.Parse(rows[rowIndex]));
+                            field.SetValue(entry, string.IsNullOrEmpty(rows[rowIndex]) ? 0f : float.Parse(rows[rowIndex]));
                             break;
                         default:
                             Debug.LogWarning($"GameConfig: unknown data type {dataType} at {headers[rowIndex]}, filename {resourceUrl}");

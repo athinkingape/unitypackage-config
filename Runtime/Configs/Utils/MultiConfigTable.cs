@@ -5,11 +5,11 @@ namespace Configs.Utils {
         IEnumerable<T> GetById(string id);
     }
 
-    public class MutliConfigTable<T> : IMultiConfigTable<T>
+    public class MultiConfigTable<T> : IMultiConfigTable<T>
         where T : IConfigTableEntry {
         private readonly Dictionary<string, List<T>> _entries = new();
 
-        public MutliConfigTable(IEnumerable<T> entires) {
+        public MultiConfigTable(IEnumerable<T> entires) {
             foreach (var tableEntry in entires) {
                 var currentEntires = _entries.GetValueOrDefault(tableEntry.Id, new List<T>());
                 currentEntires.Add(tableEntry);
