@@ -21,6 +21,11 @@ namespace Configs
             var type = typeof(T);
             var lines = dataset.text.Split("\n");
             var headers = lines[0].Split(',');
+
+            for (int i = 0; i < headers.Length; i++) {
+                headers[i] = "_" + headers[i].Trim();
+            }
+            
             var fields = new Dictionary<string, FieldInfo>();
 
             foreach (var field in type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
@@ -38,9 +43,14 @@ namespace Configs
                     return null;
                 }
                 
-                for (var rowIndex = 0; rowIndex < rows.Length; rowIndex++)
-                {
-                    var field = fields["_" + headers[rowIndex].Trim()];
+                for (var rowIndex = 0; rowIndex < rows.Length; rowIndex++) {
+                    string fieldKey = headers[rowIndex];
+                    
+                    if (!fields.TryGetValue(fieldKey, out FieldInfo field)) {
+                        Debug.LogWarning($"GameConfig: field {fieldKey} is not found at class {typeof(T)}, filename {resourceUrl}");
+                        continue;
+                    }
+
                     var dataType = field.FieldType.Name;
 
                     switch (dataType)
