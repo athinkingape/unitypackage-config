@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Configs
@@ -29,9 +30,14 @@ namespace Configs
 
             for (var lineIndex = 1; lineIndex < lines.Length; lineIndex++)
             {
-                var rows = lines[lineIndex].Split(',');
+                var rows = Regex.Split(lines[lineIndex], "[,]{1}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
                 var entry = new T();
 
+                if (headers.Length != rows.Length) {
+                    Debug.LogError($"headers {headers.Length} != rows {rows.Length}. Rows {string.Join(";", rows)}");
+                    return null;
+                }
+                
                 for (var rowIndex = 0; rowIndex < rows.Length; rowIndex++)
                 {
                     var field = fields["_" + headers[rowIndex].Trim()];
