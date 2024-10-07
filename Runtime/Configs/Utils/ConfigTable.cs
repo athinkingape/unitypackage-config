@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Configs.Utils {
     public interface IConfigTable<T> {
@@ -12,6 +13,11 @@ namespace Configs.Utils {
 
         public ConfigTable(IEnumerable<T> configTableEntries) {
             foreach (var tableEntry in configTableEntries) {
+                if (tableEntry.Id == null) {
+                    Debug.LogWarning($"ConfigTable of {typeof(T)}, entry id is null");
+                    continue;
+                }
+                
                 _entries.Add(tableEntry.Id, tableEntry);
             }
         }
