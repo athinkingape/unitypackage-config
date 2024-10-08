@@ -59,7 +59,7 @@ namespace Configs
                             field.SetValue(entry, rows[rowIndex].Trim());
                             break;
                         case "Boolean":
-                            field.SetValue(entry, rows[rowIndex] == "TRUE");
+                            field.SetValue(entry, rows[rowIndex].Trim() == "TRUE");
                             break;
                         case "Int32":
                             field.SetValue(entry, string.IsNullOrEmpty(rows[rowIndex]) ? 0 : int.Parse(rows[rowIndex]));
