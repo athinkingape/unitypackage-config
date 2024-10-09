@@ -10,6 +10,11 @@ namespace Configs
         public static IEnumerable<T> Deserialize<T>(string resourceUrl)
             where T : new()
         {
+            if (string.IsNullOrEmpty(resourceUrl)) {
+                Debug.LogError("GameConfig dataset url can't be null or empty!");
+                return null;
+            }
+            
             TextAsset dataset = Resources.Load<TextAsset>(resourceUrl);
             if (dataset == null)
             {
