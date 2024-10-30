@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace Configs.Utils {
     public interface IMultiConfigTable<T> {
+        bool HasId(string id);
         IEnumerable<T> GetById(string id);
     }
 
@@ -17,6 +18,7 @@ namespace Configs.Utils {
             }
         }
 
+        public bool HasId(string id) => _entries.ContainsKey(id);
         public IEnumerable<T> GetById(string id) => _entries.GetValueOrDefault(id);
     }
 }
