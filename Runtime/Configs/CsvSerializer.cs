@@ -35,6 +35,9 @@ namespace Configs
 
             foreach (var field in type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
             {
+                if (System.Attribute.IsDefined(field, typeof(System.NonSerializedAttribute))) {
+                    continue;
+                }
                 fields[field.Name] = field;
             }
 
