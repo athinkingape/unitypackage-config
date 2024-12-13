@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Configs.Utils {
     public interface IConfigTable<T> {
         T GetById(string id);
-        IEnumerable<T> Entires { get; }
+        IEnumerable<T> Entries { get; }
     }
 
     public class ConfigTable<T> : IConfigTable<T>
@@ -22,7 +22,7 @@ namespace Configs.Utils {
             }
         }
 
-        public IEnumerable<T> Entires => _entries.Values;
+        public IEnumerable<T> Entries => _entries.Values;
         public T GetById(string id) => _entries.GetValueOrDefault(id);
     }
 }
