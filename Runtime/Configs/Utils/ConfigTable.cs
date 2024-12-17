@@ -9,17 +9,22 @@ namespace Configs.Utils {
 
     public class ConfigTable<T> : IConfigTable<T>
         where T : IConfigTableEntry {
-        private readonly Dictionary<string, T> _entries = new();
+        protected readonly Dictionary<string, T> _entries = new();
 
+        internal ConfigTable() { }
+        
         public ConfigTable(IEnumerable<T> configTableEntries) {
-            foreach (var tableEntry in configTableEntries) {
-                if (tableEntry.Id == null) {
-                    Debug.LogWarning($"ConfigTable of {typeof(T)}, entry id is null");
-                    continue;
-                }
-                
-                _entries.Add(tableEntry.Id, tableEntry);
+            foreach (T tableEntry in configTableEntries) {
+                AddTableEntry(tableEntry);
             }
+        }
+
+        internal void AddTableEntry(T tableEntry) {
+            if (tableEntry.Id == null) {
+                Debug.LogWarning($"ConfigTable of {typeof(T)}, entry id is null");
+                return;
+            }
+            _entries.Add(tableEntry.Id, tableEntry);
         }
 
         public IEnumerable<T> Entries => _entries.Values;
