@@ -28,7 +28,12 @@ namespace Configs
             var headers = lines[0].Split(',');
 
             for (int i = 0; i < headers.Length; i++) {
-                headers[i] = "_" + headers[i].Trim();
+                if (headers[i].Trim() != string.Empty) {
+                    headers[i] = "_" + headers[i].Trim();
+                }
+                else {
+                    headers[i] = null;
+                }
             }
             
             var fields = new Dictionary<string, FieldInfo>();
@@ -53,6 +58,10 @@ namespace Configs
                 
                 for (var rowIndex = 0; rowIndex < rows.Length; rowIndex++) {
                     string fieldKey = headers[rowIndex];
+
+                    if (string.IsNullOrEmpty(fieldKey)) {
+                        continue;
+                    }
                     
                     if (!fields.TryGetValue(fieldKey, out FieldInfo field)) {
                         Debug.LogWarning($"GameConfig: field {fieldKey} is not found at class {typeof(T)}, filename {resourceUrl}");
