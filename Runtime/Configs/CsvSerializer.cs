@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -79,10 +80,10 @@ namespace Configs
                             field.SetValue(entry, rows[rowIndex].Trim() == "TRUE");
                             break;
                         case "Int32":
-                            field.SetValue(entry, string.IsNullOrEmpty(rows[rowIndex]) ? 0 : int.Parse(rows[rowIndex]));
+                            field.SetValue(entry, string.IsNullOrEmpty(rows[rowIndex]) ? 0 : int.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
                             break;
                         case "Single":
-                            field.SetValue(entry, string.IsNullOrEmpty(rows[rowIndex]) ? 0f : float.Parse(rows[rowIndex]));
+                            field.SetValue(entry, string.IsNullOrEmpty(rows[rowIndex]) ? 0f : float.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
                             break;
                         default:
                             Debug.LogWarning($"GameConfig: unknown data type {dataType} at {headers[rowIndex]}, filename {resourceUrl}");
