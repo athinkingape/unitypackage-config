@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
@@ -56,7 +57,8 @@ namespace Configs
                     Debug.LogError($"headers {headers.Length} != rows {rows.Length}. Rows {string.Join(";", rows)}");
                     return null;
                 }
-                
+
+                string id = rows[0].Trim();
                 for (var rowIndex = 0; rowIndex < rows.Length; rowIndex++) {
                     string fieldKey = headers[rowIndex];
 
@@ -71,23 +73,35 @@ namespace Configs
 
                     var dataType = field.FieldType.Name;
 
-                    switch (dataType)
-                    {
-                        case "String":
-                            field.SetValue(entry, rows[rowIndex].Trim());
-                            break;
-                        case "Boolean":
-                            field.SetValue(entry, rows[rowIndex].Trim() == "TRUE");
-                            break;
-                        case "Int32":
-                            field.SetValue(entry, string.IsNullOrEmpty(rows[rowIndex]) ? 0 : int.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
-                            break;
-                        case "Single":
-                            field.SetValue(entry, string.IsNullOrEmpty(rows[rowIndex]) ? 0f : float.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
-                            break;
-                        default:
-                            Debug.LogWarning($"GameConfig: unknown data type {dataType} at {headers[rowIndex]}, filename {resourceUrl}");
-                            break;
+                    try {
+                        switch (dataType) {
+                            case "String":
+                                field.SetValue(entry, rows[rowIndex].Trim());
+                                break;
+                            case "Boolean":
+                                field.SetValue(entry, rows[rowIndex].Trim() == "TRUE");
+                                break;
+                            case "Int32":
+                                field.SetValue(entry,
+                                    string.IsNullOrEmpty(rows[rowIndex])
+                                        ? 0
+                                        : int.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
+                                break;
+                            case "Single":
+                                field.SetValue(entry,
+                                    string.IsNullOrEmpty(rows[rowIndex])
+                                        ? 0f
+                                        : float.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
+                                break;
+                            default:
+                                Debug.LogWarning(
+                                    $"GameConfig: unknown data type {dataType} at {headers[rowIndex]}, filename {resourceUrl}");
+                                break;
+                        }
+                    }
+                    catch (FormatException ex) {
+                        throw new Exception(
+                            $"Import of \"{resourceUrl}\" failed on row Id \"{id}\" column \"{fieldKey}\" due to \"{ex.Message}\"");
                     }
                 }
 
