@@ -72,6 +72,7 @@ namespace Configs
                     }
 
                     var dataType = field.FieldType.Name;
+                    
 
                     try {
                         switch (dataType) {
@@ -94,6 +95,11 @@ namespace Configs
                                         : float.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
                                 break;
                             default:
+                                if (field.FieldType.IsEnum) {
+                                    field.SetValue(entry, Enum.Parse(field.FieldType, rows[rowIndex], true));
+                                    continue;
+                                }
+                                
                                 Debug.LogWarning(
                                     $"GameConfig: unknown data type {dataType} at {headers[rowIndex]}, filename {resourceUrl}");
                                 break;
