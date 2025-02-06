@@ -72,7 +72,7 @@ namespace Configs
                     }
 
                     var dataType = field.FieldType.Name;
-                    
+
 
                     try {
                         switch (dataType) {
@@ -99,13 +99,17 @@ namespace Configs
                                     field.SetValue(entry, Enum.Parse(field.FieldType, rows[rowIndex], true));
                                     continue;
                                 }
-                                
+
                                 Debug.LogWarning(
                                     $"GameConfig: unknown data type {dataType} at {headers[rowIndex]}, filename {resourceUrl}");
                                 break;
                         }
                     }
                     catch (FormatException ex) {
+                        throw new Exception(
+                            $"Import of \"{resourceUrl}\" failed on row Id \"{id}\" column \"{fieldKey}\" due to \"{ex.Message}\"");
+                    }
+                    catch (ArgumentException ex) {
                         throw new Exception(
                             $"Import of \"{resourceUrl}\" failed on row Id \"{id}\" column \"{fieldKey}\" due to \"{ex.Message}\"");
                     }
