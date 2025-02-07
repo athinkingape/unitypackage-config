@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Configs
 {
-    public class CsvSerializer
+    public static class CsvSerializer
     {
         public static IEnumerable<T> Deserialize<T>(string resourceUrl)
             where T : new()
@@ -77,7 +77,8 @@ namespace Configs
                     try {
                         switch (dataType) {
                             case "String":
-                                field.SetValue(entry, rows[rowIndex].Trim());
+                                string value = rows[rowIndex].Trim();
+                                field.SetValue(entry, string.IsNullOrEmpty(value) ? null : value);
                                 break;
                             case "Boolean":
                                 field.SetValue(entry, rows[rowIndex].Trim() == "TRUE");
