@@ -85,19 +85,19 @@ namespace Configs
                                 break;
                             case "Int32":
                                 field.SetValue(entry,
-                                    string.IsNullOrEmpty(rows[rowIndex])
+                                    string.IsNullOrEmpty(rows[rowIndex].Trim())
                                         ? 0
                                         : int.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
                                 break;
                             case "Single":
                                 field.SetValue(entry,
-                                    string.IsNullOrEmpty(rows[rowIndex])
+                                    string.IsNullOrEmpty(rows[rowIndex].Trim())
                                         ? 0f
                                         : float.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
                                 break;
                             default:
                                 if (field.FieldType.IsEnum) {
-                                    field.SetValue(entry, Enum.Parse(field.FieldType, rows[rowIndex], true));
+                                    field.SetValue(entry, Enum.Parse(field.FieldType, rows[rowIndex].Trim(), true));
                                     continue;
                                 }
 
