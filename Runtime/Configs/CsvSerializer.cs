@@ -50,7 +50,7 @@ namespace Configs
 
             for (var lineIndex = 1; lineIndex < lines.Length; lineIndex++)
             {
-                var rows = Regex.Split(lines[lineIndex], "[,]{1}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+                var rows = Regex.Split(lines[lineIndex].Trim(), "[,]{1}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
                 var entry = new T();
 
                 if (headers.Length != rows.Length) {
@@ -80,24 +80,28 @@ namespace Configs
                                 string value = rows[rowIndex].Trim();
                                 field.SetValue(entry, string.IsNullOrEmpty(value) ? null : value);
                                 break;
+                            case "String[]":
+                                string listValue = rows[rowIndex].Trim().Trim('"');
+                                field.SetValue(entry, string.IsNullOrEmpty(listValue) ? null : listValue.Split(','));
+                                break;
                             case "Boolean":
                                 field.SetValue(entry, rows[rowIndex].Trim() == "TRUE");
                                 break;
                             case "Int32":
                                 field.SetValue(entry,
-                                    string.IsNullOrEmpty(rows[rowIndex].Trim())
+                                    string.IsNullOrEmpty(rows[rowIndex])
                                         ? 0
                                         : int.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
                                 break;
                             case "Single":
                                 field.SetValue(entry,
-                                    string.IsNullOrEmpty(rows[rowIndex].Trim())
+                                    string.IsNullOrEmpty(rows[rowIndex])
                                         ? 0f
                                         : float.Parse(rows[rowIndex], CultureInfo.InvariantCulture));
                                 break;
                             default:
                                 if (field.FieldType.IsEnum) {
-                                    field.SetValue(entry, Enum.Parse(field.FieldType, rows[rowIndex].Trim(), true));
+                                    field.SetValue(entry, Enum.Parse(field.FieldType, rows[rowIndex], true));
                                     continue;
                                 }
 
