@@ -101,7 +101,10 @@ namespace Configs
                                 break;
                             default:
                                 if (field.FieldType.IsEnum) {
-                                    field.SetValue(entry, Enum.Parse(field.FieldType, rows[rowIndex], true));
+                                    field.SetValue(entry, 
+                                        string.IsNullOrEmpty(rows[rowIndex])
+                                            ? Enum.GetValues(field.FieldType).GetValue(0)
+                                            : Enum.Parse(field.FieldType, rows[rowIndex], true));
                                     continue;
                                 }
 
