@@ -21,6 +21,6 @@ namespace Configs.Utils {
 
         public IEnumerable<string> Ids => _entries.Keys;
         public bool HasId(string id) => _entries.ContainsKey(id);
-        public IEnumerable<T> GetById(string id) => _entries.GetValueOrDefault(id);
+        public IEnumerable<T> GetById(string id) => string.IsNullOrEmpty(id) ? default : _entries.GetValueOrDefault(id);
     }
 }

@@ -28,6 +28,6 @@ namespace Configs.Utils {
         }
 
         public IEnumerable<T> Entries => _entries.Values;
-        public T GetById(string id) => _entries.GetValueOrDefault(id);
+        public T GetById(string id) => string.IsNullOrEmpty(id) ? default : _entries.GetValueOrDefault(id);
     }
 }
