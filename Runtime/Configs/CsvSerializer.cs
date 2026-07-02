@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Configs.Utils;
 using UnityEngine;
 
 namespace Configs
@@ -40,12 +42,16 @@ namespace Configs
             
             var fields = new Dictionary<string, FieldInfo>();
 
-            foreach (var field in type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                if (System.Attribute.IsDefined(field, typeof(System.NonSerializedAttribute))) {
-                    continue;
+            // Support extended types.
+            while (type != null && type.GetInterfaces().Contains(typeof(IConfigTableEntry))) {
+                foreach (var field in type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+                {
+                    if (Attribute.IsDefined(field, typeof(System.NonSerializedAttribute))) {
+                        continue;
+                    }
+                    fields.TryAdd(field.Name, field);
                 }
-                fields[field.Name] = field;
+                type = type.BaseType;
             }
 
             for (var lineIndex = 1; lineIndex < lines.Length; lineIndex++)

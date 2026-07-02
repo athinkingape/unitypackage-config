@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Configs.Utils {
-    public interface IConfigTable<T> {
+    public interface IConfigTable<out T> {
         T GetById(string id);
         IEnumerable<T> Entries { get; }
     }
