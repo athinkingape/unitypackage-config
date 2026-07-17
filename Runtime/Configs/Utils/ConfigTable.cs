@@ -27,7 +27,10 @@ namespace Configs.Utils {
             _entries.Add(tableEntry.Id, tableEntry);
         }
 
+        public IEnumerable<string> Ids => _entries.Keys;
+        
         public IEnumerable<T> Entries => _entries.Values;
+        
         public T GetById(string id) => string.IsNullOrEmpty(id) ? default : _entries.GetValueOrDefault(id);
     }
 }
