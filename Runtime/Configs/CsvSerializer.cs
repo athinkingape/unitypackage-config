@@ -11,6 +11,8 @@ namespace Configs
 {
     public static class CsvSerializer
     {
+        private static readonly Regex CachedRegex = new Regex("[,]{1}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))", RegexOptions.Compiled);
+        
         public static IEnumerable<T> Deserialize<T>(string resourceUrl)
             where T : new()
         {
@@ -56,7 +58,7 @@ namespace Configs
 
             for (var lineIndex = 1; lineIndex < lines.Length; lineIndex++)
             {
-                var rows = Regex.Split(lines[lineIndex].Trim(), "[,]{1}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+                var rows = CachedRegex.Split(lines[lineIndex].Trim());
                 var entry = new T();
 
                 if (headers.Length != rows.Length) {
