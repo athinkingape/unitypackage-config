@@ -85,7 +85,7 @@ namespace Configs
                     try {
                         switch (dataType) {
                             case "String":
-                                string value = rows[rowIndex].Trim();
+                                string value = rows[rowIndex].Trim().Trim('"'); // Handle strings with , in them.
                                 field.SetValue(entry, string.IsNullOrEmpty(value) ? null : value);
                                 break;
                             case "String[]":
